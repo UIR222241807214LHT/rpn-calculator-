@@ -6,12 +6,12 @@
 
 int main()
 {
-    std::cout << "Welcome to Reverse Polish Notation Calculator (+ - * / supported)" << std::endl;
+    std::cout << "Welcome to Reverse Polish Notation Calculator (+ - * /  sin cos tan log pi e supported)" << std::endl;
     std::cout << "Enter 'exit' to quit the program." << std::endl;
 
     while (true)
     {
-        std::cout << "Please enter an RPN expression (e.g. 3 4 + 2 *):" << std::endl;
+        std::cout << "Please enter an RPN expression:" << std::endl;
         std::string input;
         std::getline(std::cin, input);
 

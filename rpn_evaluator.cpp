@@ -1,9 +1,13 @@
 // rpn_evaluator.cpp
-
 #include "rpn_evaluator.h"
 #include <stack>
 #include <stdexcept>
 #include <cstdlib>
+#include <cmath> // 加入数学函数支持：sin, cos, tan, log ,pi ,e
+
+// 声明常数
+const double PI = 3.141592653589793;
+const double E = 2.718281828459045;
 
 // 计算逆波兰表达式的值
 double evaluate_rpn(const std::vector<std::string> &tokens)
@@ -12,6 +16,7 @@ double evaluate_rpn(const std::vector<std::string> &tokens)
 
     for (const auto &token : tokens)
     {
+
         if (token == "+" || token == "-" || token == "*" || token == "/")
         {
             // 检查栈中是否有足够的操作数
@@ -41,17 +46,52 @@ double evaluate_rpn(const std::vector<std::string> &tokens)
             // 将结果压回栈中
             st.push(res);
         }
+        else if (token == "sin" || token == "cos" || token == "tan" || token == "log")
+        {
+            if (st.empty())
+                throw std::runtime_error("Stack is empty, cannot perform unary operator: " + token); // 栈为空，无法执行单目运算符
+
+            double a = st.top();
+            st.pop();
+            double res = 0;
+
+            if (token == "sin")
+                res = std::sin(a);
+            else if (token == "cos")
+                res = std::cos(a);
+            else if (token == "tan")
+                res = std::tan(a);
+            else if (token == "log")
+            {
+                if (a <= 0)
+                    throw std::runtime_error("log operation requires a positive number"); // log 运算要求正数
+                res = std::log(a);
+            }
+
+            st.push(res);
+        }
         else
         {
-            // 将字符串转换为数字并压栈
-            try
+            if (token == "pi")
             {
-                double val = std::stod(token);
-                st.push(val);
+                st.push(PI);
             }
-            catch (...)
+            else if (token == "e")
             {
-                throw std::runtime_error("Invalid number: " + token); // 非法数字
+                st.push(E);
+            }
+            else
+            {
+                // 将字符串转换为数字并压栈
+                try
+                {
+                    double val = std::stod(token);
+                    st.push(val);
+                }
+                catch (...)
+                {
+                    throw std::runtime_error("Invalid number: " + token); // 非法数字
+                }
             }
         }
     }

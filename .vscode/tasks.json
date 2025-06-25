@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Build RPN Calculator",
+        "type": "shell",
+        "command": "g++",
+        "args": [
+          "-std=c++17",
+          "main.cpp",
+          "rpn_evaluator.cpp",
+          "-o",
+          "rpn_calc.exe"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": ["$gcc"],
+        "detail": "编译整个逆波兰计算器项目"
+      }
+    ]
+  }
+  
