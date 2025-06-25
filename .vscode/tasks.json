@@ -1,24 +1,61 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Build RPN Calculator",
-        "type": "shell",
-        "command": "g++",
-        "args": [
-          "-std=c++17",
-          "main.cpp",
-          "rpn_evaluator.cpp",
-          "-o",
-          "rpn_calc.exe"
-        ],
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        },
-        "problemMatcher": ["$gcc"],
-        "detail": "编译整个逆波兰计算器项目"
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build RPN Calculator",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-std=c++17",
+        "main.cpp",
+        "rpn_evaluator.cpp",
+        "http_client.cpp",
+        "exchange_rate.cpp",
+        "-o",
+        "rpn_calc.exe",
+        "-lws2_32"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "Compile the RPN calculator with networking support"
+    },
+    {
+      "label": "Run RPN Calculator",
+      "type": "shell",
+      "command": "${workspaceFolder}/rpn_calc.exe",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
       }
-    ]
-  }
-  
+    },
+    {
+      "label": "Build and Run",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build RPN Calculator",
+        "Run RPN Calculator"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "del",
+      "args": [
+        "/Q",
+        "rpn_calc.exe"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

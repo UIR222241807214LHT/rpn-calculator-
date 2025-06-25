@@ -1,5 +1,6 @@
 // rpn_evaluator.cpp
 #include "rpn_evaluator.h"
+#include "exchange_rate.h"
 #include <stack>
 #include <stdexcept>
 #include <cstdlib>
@@ -69,6 +70,26 @@ double evaluate_rpn(const std::vector<std::string> &tokens)
             }
 
             st.push(res);
+        }
+        if (token == "$")
+        {
+            if (st.empty())
+                throw std::runtime_error("Stack is empty, cannot perform '$' operator");
+            double usd_amount = st.top();
+            st.pop();
+
+            double rate = 0.0;
+            try
+            {
+                rate = get_usd_to_cny_rate();
+            }
+            catch (const std::exception &e)
+            {
+                throw std::runtime_error(std::string("Failed to get exchange rate: ") + e.what());
+            }
+
+            double cny_amount = usd_amount * rate;
+            st.push(cny_amount);
         }
         else
         {
