@@ -3,33 +3,35 @@
 #include <string>
 #include <iostream>
 #include <regex>
-#include <stdexcept> // 保留，用于 std::runtime_error
+#include <stdexcept> // 保留，用于 runtime_error
+
+using namespace std;
 
 // 简单从 JSON 响应中提取汇率
-double parse_rate_from_response(const std::string &response)
+double parse_rate_from_response(const string &response)
 {
-    std::regex reg(R"("CNY"\s*:\s*([0-9.]+))");
-    std::smatch match;
-    if (std::regex_search(response, match, reg) && match.size() > 1)
+    regex reg(R"("CNY"\s*:\s*([0-9.]+))"); // 从字符串 response 中提取 "CNY": 数字 这样的汇率信息。
+    smatch match;
+    if (regex_search(response, match, reg) && match.size() > 1)
     {
-        return std::stod(match[1].str());
+        return stod(match[1].str());
     }
-    throw std::runtime_error("Failed to parse rate from response");
+    throw runtime_error("从网页提取汇率失败");
 }
 
 double get_usd_to_cny_rate()
 {
-    const std::string host = "open.er-api.com";
-    const std::string path = "/v6/latest/USD";
+    const string host = "open.er-api.com";
+    const string path = "/v6/latest/USD";
 
     try
     {
-        std::string response = http_get(host, path, 80);
+        string response = http_get(host, path, 80);
         return parse_rate_from_response(response);
     }
-    catch (const std::exception &e)
+    catch (const exception &e)
     {
-        std::cerr << "Error: Failed to get USD to CNY rate: " << e.what() << std::endl;
+        cerr << "错误：获取美元兑人民币汇率失败" << e.what() << endl;
         throw;
     }
 }
