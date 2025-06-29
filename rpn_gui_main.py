@@ -1,5 +1,11 @@
-import dearpygui.dearpygui as dpg
+"""
+main.py
+"""
 
+import dearpygui.dearpygui as dpg
+from gui_functions import setup_gui_layout
+
+# --- 创建 GUI 上下文 ---
 dpg.create_context()
 
 # 注册字体，自选字体
@@ -10,12 +16,11 @@ with dpg.font_registry():
         dpg.add_font_range_hint(dpg.mvFontRangeHint_Chinese_Full)
     dpg.bind_font(font1)
 
-with dpg.window(label="Demo 窗口", width=500, height=150):
-    dpg.add_text("Hello, world")
-    dpg.add_text("你好，世界")
-    # dpg.bind_font(font1)  # 不绑定也没关系，default_font=True 已生效
+# 调用 gui_functions 中定义的函数来设置 GUI 布局
+setup_gui_layout()
 
-dpg.create_viewport(title="dear_pygui", width=800, height=600)
+# --- 启动 ---
+dpg.create_viewport(title="Reverse Polish Notation GUI", width=515, height=540)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.start_dearpygui()

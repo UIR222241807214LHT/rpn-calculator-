@@ -13,6 +13,8 @@
 
 using namespace std;
 
+static string g_last_error = "";
+
 extern "C"
 {
     // 这个函数提供给Python调用，传入C风格字符串数组和长度
@@ -33,7 +35,14 @@ extern "C"
         catch (const exception &e)
         {
             // 遇到异常返回NaN，Python端调用时判断
+            g_last_error = e.what(); // 这里保存错误消息
             return nan("");
         }
+    }
+    // 新增：获取最后一次错误信息
+    // 返回一个 const char*，Python 端读取后再 decode
+    extern "C" DLL_EXPORT const char *get_last_error()
+    {
+        return g_last_error.c_str();
     }
 }
