@@ -11,12 +11,12 @@ using namespace std;
 int main()
 {
     SetConsoleOutputCP(CP_UTF8); // 将控制台代码页设置为 UTF-8
-    cout << "欢迎使用逆波兰式计算器 (支持 + - * /  sin cos tan log pi e)" << endl;
+    cout << "欢迎使用计算器 (支持 + - * /  sin cos tan ln pi e)" << endl;
     cout << "输入'exit'以退出程序" << endl;
 
     while (true) // 程序永远循环直到break退出
     {
-        cout << "请输入一个符合逆波兰式的算式" << endl;
+        cout << "请输入算式" << endl;
         string input;
         getline(cin, input); // getline(输入流,结果保存)
 
@@ -36,7 +36,7 @@ int main()
         }
         try // try-catch
         {   // try中放可能发生错误的代码块，尝试运行
-            double result = evaluate_rpn(tokens);
+            double result = evaluate_infix_expr(tokens);
             cout << "结果是：" << result << endl;
         }
         catch (const exception &e)

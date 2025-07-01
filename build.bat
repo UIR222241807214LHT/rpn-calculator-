@@ -1,7 +1,7 @@
 @echo off
 echo 正在编译 rpn_lib.dll...
 
-:: 使用 g++ 编译多个源文件，生成 DLL（支持 WinSock 和静态链接 C++ 运行库）
+:: 使用 g++ 编译多个源文件，生成 DLL，链接 WinSock 库，支持 C++17 标准
 g++ -std=c++17 -shared -o rpn_lib.dll ^
     rpn_lib.cpp ^
     rpn_evaluator.cpp ^
@@ -14,3 +14,4 @@ if %errorlevel% neq 0 (
 ) else (
     echo 编译成功，已生成 rpn_lib.dll
 )
+pause
